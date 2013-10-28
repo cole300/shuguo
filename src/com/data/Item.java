@@ -3,6 +3,7 @@ package com.data;
 /*物品&装备属性*/
 public class Item {
 
+	//test
 	private int id;// id
 	private int picId = -1;// 图片id
 	private int styleId = -1;// 换装id
