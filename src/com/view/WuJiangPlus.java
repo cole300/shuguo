@@ -17,6 +17,7 @@ import com.tool.Tool;
 
 public class WuJiangPlus extends View{
 
+	//wujiang
 	Paint paint;
 	
 	ShuguoActivity activity;
