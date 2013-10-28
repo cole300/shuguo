@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="gb2312"?>
+<commStru implement="com.init.Server" package="com.cs">
+	<!-- 1:数据类型如下： s==>String i==>int l==>long S==>short B==>boolean d==>double 
+		f==>float b==>byte c==>char F==>file [b==>byte[] 2: multi标签代表一个数组，数组大小为short,下发数据每一维开始之前写一个short表示该维的长度，增加字段直接往后添加 -->
+	<!-- -1:MDException 常用报错提示信息，弹出确认框。 -2:HEADException 目标头顶提示信息，直接界面滚动显示 -3:NETException 
+		提示网络断开信息，弹出确认框，标识网络断开，程序处于离线状态运行 -4:ExitException 退出游戏，弹出确认框，并关闭游戏 -5:VersionException 
+		提示版本更新信息，弹出确认框，并切换至更新网站，并关闭游戏 -6:VersionInfoException 提示版本更新信息，弹出选择确认框，更新切换至更新网站，取消回到游戏 
+		-7:DLoginException 提示其他地方登陆信息，弹出确认框，并关闭游戏 -->
+
+	<command value="0" class="BeatData" memo="心跳包">
+		<request>
+			<var name="msg" type="s" memo="心跳信息" />
+		</request>
+	</command>
+
+	<command value="1" class="AccoutVerify" memo="验证账号" sync="false">
+		<request>
+			<var name="account" type="s" memo="账号" />
+			<var name="passwd" type="s" memo="密码" />
+			<var name="version" type="s"
+				memo="版本 格式：格式：版本前缀.当前版本号.机型(ios通用版：1,iphone:2,ipad:3).渠道(appstore:1、91：2) .mac.具体机型 例子：0.60.1.2.0800270094C1.iphone31" />
+		</request>
+		<response>
+			<!-- 客户端提交 uid,sid进行登陆 -->
+			<var name="uid" type="l" memo="账号id" />
+			<var name="sid" type="l" memo="sessionid" />
+			<multi>
+				<var name="areaname" type="s" memo="区服务器名" />
+				<var name="areaurl" type="s" memo="区服务http地址" />
+				<var name="servlist" type="LogicServList" memo="线服务器列表" />
+			</multi>
+		</response>
+	</command>
+
+
+	<command value="2" class="LogicServList" memo="线服务器列表" sync="false">
+		<request>
+		</request>
+		<response>
+			<var name="chaturl" type="s" memo="聊天http地址" />
+			<multi>
+				<var name="servurl" type="s" memo="逻辑服务器http地址" />
+			</multi>
+		</response>
+	</command>
+
+
+	<command value="3" class="UserRegister" memo="用户注册" sync="false">
+		<request>
+			<var name="username" type="s" memo="账号" />
+			<var name="passwd" type="s" memo="密码" />
+			<var name="version" type="s" memo="版本" />
+			<var name="email" type="s" memo="email" />
+		</request>
+		<response>
+			<var name="servinfo" type="AccoutVerify" memo="登陆验证回应-区服信息" />
+		</response>
+	</command>
+
+
+	<command value="4" class="EnterGame" memo="进入游戏" sync="false">
+		<request>
+			<!-- 客户端提交 uid,sid进行登陆 -->
+			<var name="uid" type="l" memo="账号id" />
+			<var name="sid" type="l" memo="sessionid" />
+		</request>
+		<response>
+			<var name="nation" type="S" memo="国籍" />
+			<var name="nickName" type="s" memo="玩家昵称" />
+			<var name="nickNameNeedSet" type="b" memo="玩家昵称需要设置（0不需要，1需要）" />
+			<var name="money" type="i" memo="游戏货币" />
+			<var name="yinyuan" type="i" memo="银元" />
+			<var name="gold" type="i" memo="元宝" />
+			<var name="level" type="i" memo="等级" />
+			<var name="curExp" type="i" memo="现有经验" />
+			<var name="maxExp" type="i" memo="最大经验" />
+			<multi>
+				<var name="itemuid" type="l" memo="物品UID" />
+				<var name="picid" type="i" memo="图片id" />
+				<var name="styleid" type="i" memo="换装id" />
+				<var name="itemname" type="s" memo="物品名称" />
+				<var name="type" type="i" memo="物品类型" />
+				<var name="num" type="i" memo="物品数量" />
+			</multi>
+		</response>
+	</command>
+
+	<command value="5" class="WuJiangInfoList" memo="武将列表" sync="false">
+		<request>
+		</request>
+		<response>
+			<multi>
+				<var name="wujiangId" type="l" memo="id" />
+				<var name="wujiangName" type="s" memo="姓名" />
+				<var name="wujiangLevel" type="S" memo="等级" />
+				<var name="wujiangQuality" type="i" memo="品质" />
+				<var name="wujiangHeadId" type="i" memo="头像id" />
+				<var name="wujiangCurExp" type="i" memo="现有经验" />
+				<var name="wujiangMaxExp" type="i" memo="最大经验" />
+				<var name="wujiangAttack" type="i" memo="攻击" />
+				<var name="wujiangDefense" type="i" memo="防御" />
+				<var name="wujiangHp" type="i" memo="血量" />
+				<var name="wujiangOwn" type="i" memo="带兵" />
+				<var name="wujiangCurPhysical" type="i" memo="现有体力" />
+				<var name="wujiangMaxPhysical" type="i" memo="最大体力" />
+				<var name="wujiangSex" type="b" memo="性别" />
+				<var name="wujiangWarriorGongbing" type="i" memo="弓兵" />
+				<var name="wujiangWarriorBubing" type="i" memo="步兵" />
+				<var name="wujiangWarriorQibing" type="i" memo="骑兵" />
+				<var name="wujiangDes" type="s" memo="描述" />
+			</multi>
+		</response>
+	</command>
+
+	<command value="6" class="RenameNick" memo="修改昵称" sync="false">
+		<request>
+			<var name="newNick" type="s" memo="新的昵称" />
+		</request>
+		<response>
+		</response>
+	</command>
+
+	<command value="7" class="BuildingListInfo" memo="建筑列表信息">
+		<request>
+		</request>
+		<response>
+			<multi>
+				<var name="itemId" type="l" memo="id" />
+				<var name="itemName" type="s" memo="建筑名称" />
+				<var name="imageId" type="i" memo="建筑图片id" />
+				<var name="posId" type="i" memo="建筑在地图上id" />
+				<var name="type" type="i" memo="建筑类型" />
+			</multi>
+		</response>
+	</command>
+
+</commStru>

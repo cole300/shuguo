@@ -1,0 +1,76 @@
+10
+
+dir
+62
+svn://192.168.2.140/sanguo/client/shuguo/assets
+svn://192.168.2.140/sanguo
+
+
+
+2012-12-26T09:35:03.138119Z
+57
+guoweidong
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c2d3b7de-3866-11e2-b9ca-51b28eb4a40b
+
+btn
+dir
+
+equip
+dir
+
+status
+dir
+
+element
+dir
+
+fonts
+dir
+
+effect
+dir
+
+tile
+dir
+
+build
+dir
+
+head
+dir
+
+ani
+dir
+
+login
+dir
+
+data
+dir
+
+battle_avatar
+dir
+
+battle
+dir
+
+ui
+dir
+
+skill
+dir
+

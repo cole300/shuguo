@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" />
+
+       <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="139dp"
+        android:layout_height="19dp"
+        android:textColor="#ff0000"
+        android:layout_x="252dp"
+        android:layout_y="124dp"
+        android:background="@drawable/kuang"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="userName"
+        android:textSize="12sp"
+        android:singleLine="true"
+        >
+    </EditText>
+    
+</LinearLayout>

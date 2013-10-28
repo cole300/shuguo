@@ -1,0 +1,147 @@
+package com.shu;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.net.MySocket;
+import com.net.TestHttp;
+import com.view.Group;
+
+public class ShuguoActivity extends Activity {
+    /** Called when the activity is first created. */
+	
+	public static final int REFRESH = 0x000001;
+	public Group group;
+	
+	/*字体*/
+	public Typeface typeFace;
+	
+	Button btn_Login;
+	EditText editText_userName;
+	EditText editText_password;
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        TestHttp.test();
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        		             WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*读取字体*/
+        this.typeFace = Typeface.createFromAsset(this.getAssets(), "fonts/a.ttf");
+        
+        group = new Group(this.getApplicationContext(), this);
+        setContentView(group);
+//        setContentView(R.layout.login);
+        
+        new Thread(new GameThread()).start();
+        
+        btn_Login = (Button)this.findViewById(R.id.btnLogin);
+        editText_userName = (EditText)this.findViewById(R.id.editTextUserName);
+        editText_password = (EditText)this.findViewById(R.id.editTextPassword);
+        
+        if(btn_Login == null)
+        	return;
+        
+        btn_Login.setOnClickListener(new Button.OnClickListener()
+        {
+        	public void onClick(View arg0)
+        	{
+//        		TestHttp.test(editText_userName.getText().toString(),
+//  					          editText_password.getText().toString());
+        		TestHttp.login(editText_userName.getText().toString(), editText_password.getText().toString(), "0.60.1.2.0800270094C1.iphone31");
+        		
+        		
+//        		JSONObject jsonObj = new JSONObject();
+//        		try{
+//        			jsonObj.put("userName", editText_userName.getText().toString());
+//        			jsonObj.put("password", editText_password.getText().toString());
+//        			/*上传登陆指令*/
+//            		MySocket.getInstance().connect("login", jsonObj);
+//        			
+//        			
+//        		}catch(JSONException e){e.printStackTrace();}
+        	}
+        });
+    }
+    	
+    Handler myHandler= new Handler()
+    {
+    	public void handleMessage(Message msg)
+    	{
+    		switch(msg.what)
+    		{
+    		case ShuguoActivity.REFRESH:
+    			
+    			for(int i = 0 ; i < group.getChildCount(); i ++)
+    			{
+    				group.getChildAt(i).invalidate();
+    			}
+    			
+    			break;
+    		}
+    		super.handleMessage(msg);
+    	}
+    };
+    
+    class GameThread implements Runnable
+    {
+    	public void run()
+    	{
+    		while(!Thread.currentThread().isInterrupted())
+    		{
+    			Message message= myHandler.obtainMessage();
+    			message.what= ShuguoActivity.REFRESH;
+    			//send msg
+    			ShuguoActivity.this.myHandler.sendMessage(message);
+    			try{Thread.sleep(5);}catch(InterruptedException e){e.printStackTrace();}
+    		}
+    	}
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+    	if(keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		new AlertDialog.Builder(this)
+//    			.setIcon(R.drawable.icon);
+    			.setTitle(R.string.app_name)
+//    			.setMessage(R.string.quit_desc);
+    			.setMessage("sure to quit?")
+    			.setNegativeButton("cancel", new DialogInterface.OnClickListener(){
+    				public void onClick(DialogInterface dialog, int which){
+    				}
+    			}).setPositiveButton("confirm", new DialogInterface.OnClickListener(){
+    				public void onClick(DialogInterface dialog, int whichButton)
+    				{
+    					finish();
+    				}
+    			}).show();
+    		return true;
+    	}else
+    	{
+    		return super.onKeyDown(keyCode, event);
+    	}
+    }
+    
+    @Override
+    protected void onDestroy(){
+    	System.out.println("kill process");
+    	super.onDestroy();
+    	System.exit(0);
+    	//or
+    	android.os.Process.killProcess(android.os.Process.myPid());
+    }
+}
